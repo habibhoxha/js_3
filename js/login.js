@@ -12,7 +12,38 @@ $(document).ready(function(){
 
 	$("#submit_login").click(function(){
 
-		
+		var username = $("#username").val();
+		var password = $("#password").val();
+
+		var is_ok = true;
+
+		$("#register_response").html("").hide();
+
+		if(username.length < 3) {
+			// username is ok
+			is_ok = false;
+
+			var msg = "Username is too short";
+			if(username.length == 0) {
+				msg = "Username missing";
+			}
+
+			$("#register_response").append("<div>"+msg+"</div>").show();
+		}
+
+		if(password.length < 6) {
+			// password is ok
+			is_ok = false;
+			$("#register_response").append("<div>Password missing</div>").show();
+		}
+
+		if(is_ok) {
+			// login user
+			console.log("Everything is ok");
+		}
+		else {
+			console.log("Errors found");
+		}
 
 	});
 	
