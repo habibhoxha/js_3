@@ -27,3 +27,7 @@ label span.error.show {
 	display: none;
     margin-bottom: 20px;
 }
+
+.red_border {
+	border-color: red;
+}
