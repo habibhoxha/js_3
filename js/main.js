@@ -1,8 +1,9 @@
 //var root = "http://localhost/ct/api/";
 var root = "http://192.168.0.123/ct/api/";
 var is_logged_in = function() {
-	var user = JSON.parse(localStorage.getItem("user"));
+	var user = localStorage.getItem("user");
 	if(user == undefined || user == null) {
+		//user = JSON.parse(user);
 		window.location = "login.html";
 	}
 	return true;
@@ -54,36 +55,11 @@ var message_template = function(message) {
 
 $(document).ready(function(){
 	
-	var data = {
-		name: "habib", 
-		username: "testuser",
-		password: "test123",
-		email: "test123@gmail.com",
-		action: "signup"
-	};
-	console.log(data);
-	data = JSON.stringify(data);
-	/*$.ajax({
-		url: "http://localhost/ct/register.php",
-		data: data,
-		type: "POST",
-		success: function(response) {
-			console.log("SUCCESS");
-			console.log(response);
-		},
-		error: function(response) {
-			console.log("ERROR");
-			console.log(response);
-		}
-	});*/
-	
-	
-	
-	
-	
 	if( is_logged_in() ) {
 	
 		var user = localStorage.getItem("user");
+		console.log(user);
+		if(user != undefined)
 		user = JSON.parse(user);
 		
 		console.log("Make request every minute");
