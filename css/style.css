@@ -31,3 +31,6 @@ label span.error.show {
 .red_border {
 	border-color: red;
 }
+.loading {
+	margin-top: 10px;
+}
