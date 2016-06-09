@@ -1,9 +1,10 @@
 //var root = "http://localhost/ct/api/";
-//var root = "http://192.168.0.123/ct/api/";
-var root = "http://responseve.net/ct/api/";
+var root = "http://ct-test.net23.net/api/"; 
+
 var is_logged_in = function() {
 	var user = localStorage.getItem("user");
-	if(user == undefined || user == null) {
+	console.log(user);
+	if(user == "undefined" || user == null) {
 		//user = JSON.parse(user);
 		window.location = "login.html";
 	}
@@ -45,11 +46,15 @@ var message_template = function(message) {
 		html += message.username;
 		html += ':</div>';
 		html += '<div class="message_content">';
-		html += message.message;
+		html += message.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		html += '<div>';
 	html += '<div>';
 	
 	return html;
+}
+
+var show_loading = function(div) {
+	$(div).html('<div class="loading">loading...</div>');
 }
 
 
@@ -63,7 +68,9 @@ $(document).ready(function(){
 		if(user != undefined)
 		user = JSON.parse(user);
 		
-		console.log("Make request every minute");
+		// console.log("Make request every minute");
+		
+		show_loading("#messages");
 		
 		var data = {
 			action: "users"
@@ -148,6 +155,7 @@ $(document).ready(function(){
 			};
 			//data = JSON.stringify(data);
 			console.log(user.id);
+			show_loading("#messages");
 			
 			$.ajax({
 				url: root+"messages.php",

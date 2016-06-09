@@ -1,4 +1,4 @@
-var root = "http://responseve.net/ct/api/";
+var root = "http://ct-test.net23.net/api/"; 
 
 var is_not_logged_in = function() {
 	var user = JSON.parse(localStorage.getItem("user"));
@@ -58,7 +58,40 @@ $(document).ready(function(){
 
 		if(is_ok) {
 			// register user
-			console.log("Everything is ok");
+			
+			var data = {
+				name: $("#name").val(),
+				username: $("#username").val(),
+				password: $("#password").val(),
+				email: $("#email").val(),
+				action: "signup"
+			};
+			console.log(data);
+			data = JSON.stringify(data);
+		
+			$.ajax({
+				url: root+"register.php",
+				data: data,
+				type: "POST",
+				success: function(response) {
+					console.log("SUCCESS");
+		
+					if(!response.error) {
+						// Login will store the user
+						// localStorage.setItem("user", JSON.stringify(response.data));
+						window.location = "login.html";
+					}
+					else {
+						// Error handling
+						$("#register_response").html(response.message).show();
+					}
+				},
+				error: function(response) {
+					console.log("ERROR");
+					console.log(response);
+				}
+			});
+			
 		}
 		else {
 			console.log("Errors found");
@@ -66,41 +99,10 @@ $(document).ready(function(){
 
 	});
 	
-	// $("#submit_register").click(function(){
-	//
-	// 	var data = {
-	// 		name: $("#name").val(),
-	// 		username: $("#username").val(),
-	// 		password: $("#password").val(),
-	// 		email: $("#email").val(),
-	// 		action: "signup"
-	// 	};
-	// 	console.log(data);
-	// 	data = JSON.stringify(data);
-	//
-	// 	$.ajax({
-	// 		url: root+"register.php",
-	// 		data: data,
-	// 		type: "POST",
-	// 		success: function(response) {
-	// 			console.log("SUCCESS");
-	//
-	// 			if(!response.error) {
-	// 				localStorage.setItem("user", JSON.stringify(response.data));
-	// 				window.location = "login.html";
-	// 			}
-	// 			else {
-	// 				// Error handling
-	// 				$("#register_response").html(response.message).show();
-	// 			}
-	// 		},
-	// 		error: function(response) {
-	// 			console.log("ERROR");
-	// 			console.log(response);
-	// 		}
-	// 	});
-	//
-	// });
+	$("#submit_register").click(function(){
+		
+	
+	});
 	
 	if( is_not_logged_in() ) {
 		console.log("User is not logged in");
