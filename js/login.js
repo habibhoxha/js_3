@@ -1,4 +1,4 @@
-var root = "http://192.168.0.123/ct/api/";
+var root = "http://responseve.net/ct/api/";
 
 var is_not_logged_in = function() {
 	var user = JSON.parse(localStorage.getItem("user"));

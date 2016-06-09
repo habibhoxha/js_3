@@ -1,5 +1,6 @@
 //var root = "http://localhost/ct/api/";
-var root = "http://192.168.0.123/ct/api/";
+//var root = "http://192.168.0.123/ct/api/";
+var root = "http://responseve.net/ct/api/";
 var is_logged_in = function() {
 	var user = localStorage.getItem("user");
 	if(user == undefined || user == null) {
