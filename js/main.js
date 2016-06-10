@@ -43,7 +43,7 @@ var message_template = function(message) {
 	var html = "";
 	html += '<div class="message bg-info" data-message-id="'+message.id+'">';
 		html += '<div class="message_user">';
-		html += message.username;
+		html += message.name + ' (' + message.username+')';
 		html += ':</div>';
 		html += '<div class="message_content">';
 		html += message.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -106,7 +106,28 @@ $(document).ready(function(){
 				console.log(response);
 			}
 		});
-		
+
+		setInterval(function(){
+			data = {
+				action: "messages"
+			};
+			$.ajax({
+				url: root+"messages.php",
+				data: data,
+				type: "GET",
+				success: function(response) {
+					console.log("SUCCESS Messages");
+					console.log(response);
+					list_messages(response.data);
+				},
+				error: function(response) {
+					console.log("ERROR");
+					console.log(response);
+				}
+			});
+		}, 10000);
+
+
 	}
 	
 	$("#submit_message").click(function(){

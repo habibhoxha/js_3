@@ -68,14 +68,14 @@ $(document).ready(function(){
 			};
 			console.log(data);
 			data = JSON.stringify(data);
-		
+
 			$.ajax({
 				url: root+"register.php",
 				data: data,
 				type: "POST",
 				success: function(response) {
 					console.log("SUCCESS");
-		
+
 					if(!response.error) {
 						// Login will store the user
 						// localStorage.setItem("user", JSON.stringify(response.data));
