@@ -1,13 +1,15 @@
 //var root = "http://localhost/ct/api/";
 var root = "http://ct-test.net23.net/api/"; 
 
+var user = localStorage.getItem("user");
+
 var is_logged_in = function() {
-	var user = localStorage.getItem("user");
 	console.log(user);
 	if(user == "undefined" || user == null) {
-		//user = JSON.parse(user);
+		// Return to login
 		window.location = "login.html";
 	}
+	user = JSON.parse(user);
 	return true;
 }
 
@@ -41,7 +43,9 @@ var list_message = function(message) {
 
 var message_template = function(message) {
 	var html = "";
-	html += '<div class="message bg-info" data-message-id="'+message.id+'">';
+	html += '<div class="message bg-info" id="message_'+message.id+'" data-message-id="'+message.id+'">';
+		if(user.id == message.user_id)
+			html += '<div class="message_delete close" data-message-id="'+message.id+'">x</div>';
 		html += '<div class="message_user">';
 		html += message.name + ' (' + message.username+')';
 		html += ':</div>';
@@ -138,7 +142,7 @@ $(document).ready(function(){
 			var data = {
 				user_id: user.id,
 				message: message,
-				action: "messages"
+				action: "new_message"
 			};
 			data = JSON.stringify(data);
 			
@@ -152,6 +156,7 @@ $(document).ready(function(){
 					//var message_new = {
 						//id: 
 					//};
+					response.data.name = user.name;
 					response.data.username = user.username;
 					list_message(response.data);
 					$("#message").val("");
@@ -190,6 +195,37 @@ $(document).ready(function(){
 					//};
 					list_messages(response.data);
 					//$("#message").val("");
+				},
+				error: function(response) {
+					console.log("ERROR");
+					console.log(response);
+				}
+			});
+	});
+	
+	$(document).on("click", "#messages .message_delete", function(){
+			var div_to_close = $(this).parent().attr("id");
+			var message_id = $(this).attr("data-message-id");
+			console.log(message_id);
+			var data = {
+				user_id: user.id,
+				message_id: message_id,
+				action: "delete_message"
+			};
+			data = JSON.stringify(data);
+			
+			$.ajax({
+				url: root+"messages.php",
+				data: data,
+				type: "POST",
+				success: function(response) {
+					console.log("SUCCESS Messages");
+					console.log(response);
+					
+					console.log("This");
+					console.log(div_to_close);
+					if(!response.error)
+						$("#"+div_to_close).fadeOut();
 				},
 				error: function(response) {
 					console.log("ERROR");
